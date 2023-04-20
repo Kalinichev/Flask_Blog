@@ -9,4 +9,5 @@ login_manager = LoginManager()
 def create_app():
     print(__name__)
     app = Flask(__name__)
+    db.init_app(app)
     return app
