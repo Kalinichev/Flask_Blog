@@ -12,7 +12,7 @@ def create_app():
     app = Flask(__name__)
     from flask_blog.main.routes import main
     app.register_blueprint(main)
-    db.init_app(app)
     app.config.from_object(Config)
+    db.init_app(app)
 
     return app
