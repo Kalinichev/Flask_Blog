@@ -10,10 +10,9 @@ login_manager = LoginManager()
 def create_app():
     print(__name__)
     app = Flask(__name__)
-    db.init_app(app)
-
-    from flask_blog import main
+    from flask_blog.main.routes import main
     app.register_blueprint(main)
+    db.init_app(app)
     app.config.from_object(config)
 
     return app
