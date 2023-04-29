@@ -10,7 +10,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired(), Length(min=2, max=64)])
     email = StringField('Email:', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль:', validators=[DataRequired()])
-    confirm_password = PasswordField('Подтвердить пароль:', validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Подтвердите пароль:', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Зарегистрироваться')
 
     @staticmethod
@@ -64,3 +64,8 @@ class RequestResetForm(FlaskForm):
         if user is None:
             raise ValidationError('Аккаунт с таким адресом не существует')
 
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Новый пароль:', validators=[DataRequired()])
+    confirm_password = PasswordField('Подтвердите пароль:', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('ОК')
