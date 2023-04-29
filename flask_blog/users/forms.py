@@ -17,13 +17,13 @@ class RegistrationForm(FlaskForm):
     def validata_username(username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('Это имя занято. Выберите другое.')
+            raise ValidationError('Это имя занято. Выберите другое')
 
     @staticmethod
     def validata_email(email):
         user = User.query.filter_by(username=email.data).first()
         if user:
-            raise ValidationError('Пользователь с таким email-ом уже существует.')
+            raise ValidationError('Пользователь с таким email-ом уже существует')
 
 
 class LoginForm(FlaskForm):
@@ -44,11 +44,23 @@ class UpdataAccountForm(FlaskForm):
         if username.data != current_user.username:
             user = User.query.filter_by(username=username.data).first()
             if user:
-                raise ValidationError('Это имя занято. Выберите другое.')
+                raise ValidationError('Это имя занято. Выберите другое')
 
     @staticmethod
     def validata_email(email):
         if email.data != current_user.email:
             user = User.query.filter_by(username=email.data).first()
             if user:
-                raise ValidationError('Пользователь с таким email-ом уже существует.')
+                raise ValidationError('Пользователь с таким email-ом уже существует')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email:', validators=[DataRequired(), Email()])
+    submit = SubmitField('Изменить пароль')
+
+    @staticmethod
+    def validate_email(email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('Аккаунт с таким адресом не существует')
+
