@@ -1,6 +1,4 @@
-import bcrypt
-
-from flask_blog import db
+from flask_blog import db, bcrypt
 from flask import Blueprint, redirect, url_for, flash, render_template
 from flask_login import current_user
 
@@ -16,7 +14,7 @@ def register():
         return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt(14)).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, passowrd=hashed_password)
         db.session.add(user)
         db.session.commit()
