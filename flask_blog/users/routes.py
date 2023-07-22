@@ -1,6 +1,6 @@
 from flask_blog import db, bcrypt
 from flask import Blueprint, redirect, url_for, flash, render_template, request
-from flask_login import current_user, login_user, login_required
+from flask_login import current_user, login_user, login_required, logout_user
 
 from flask_blog.models import User, Post
 from flask_blog.users.forms import RegistrationForm, LoginForm, UpdateAccountForm
@@ -60,3 +60,9 @@ def account():
         posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     image_file = url_for('static', filename='profile_pocs/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form, posts=posts, user=user)
+
+
+@users.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.home'))
